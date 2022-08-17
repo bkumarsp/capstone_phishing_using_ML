@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="../../static/forms.css">
+
+</head>
+
+<body>
+    <h1>Sign Up Form</h1>
+
+    <form action="/signup" method="post">
+        {% csrf_token %}
+
+        <!-- first name -->
+        <label for="fname">Firstname <span style="padding-right: 100px;"></span></label>
+        <input type="text" name="fname" placeholder="Enter your first name" required>
+        <br>
+
+        <!-- last name -->
+        <label for="lname">Lastname <span style="padding-right: 105px;"></span></label>
+        <input type="text" name="lname" placeholder="Enter your last name" required>
+        <br>
+
+        <!-- email -->
+        <label for="email">Email <span style="padding-right: 130px;"></span></label>
+        <input type="email" name="email" placeholder="Enter valid Email ID" required>
+        <br>
+
+        <!-- SRN is Username-->
+        <label for="SRN">SRN <span style="padding-right: 140px;"></span></label>
+        <input type="text" name="SRN" placeholder="Enter your ID number" required>
+        <br>
+
+        <!-- Role -->
+        <label for="role">Role <span style="padding-right: 145px;"></span></label>
+        <select name="role" id="role">
+            <option value="Student">Student</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <br>
+        <br>
+        <!-- Institution -->
+        <label for="institution">Organization <span style="padding-right: 77px;"></span></label>
+        <select name="institution" id="institution">
+            <option value="PES_EC">PES_EC</option>
+            <option value="PES_RR">PES_RR</option>
+            <option value="RVCE">RVCE</option>
+        </select>
+        <br>
+
+        <!-- password -->
+        <label for="password">Password<span style="padding-right: 110px;"></span></label>
+        <input type="password" name="password" placeholder="Create a password" required>
+        <br>
+
+        <!-- confirm password -->
+        <label for="confirmpassword">Confirm password<span style="padding-right: 50px;"></span></label>
+        <input type="password" name="confirmpassword" placeholder="Re-enter your password" required>
+        <br>
+        <span style="padding-right: 65px;"></span>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Clear</button>
+
+        <br>
+        <span style="padding-right: 130px;"></span>
+        <button type="submit" value=""><a href="/signin">Signin</a></button>
+    </form>
+</body>
+
+</html>
