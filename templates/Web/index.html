@@ -22,11 +22,45 @@
 
 
 
-    <h1>Welcome to our Capstone project.</h1>
+    <h1>Aqua Phishing</h1>
 
     {% if user.is_authenticated %}
     <h2>Hello {{fname}}</h2>
     <h3>You're successfully logged in.</h3>
+    <br>
+    <h1>Your pending requests for approval are:</h1>
+    <hr>
+
+    <div class="requestsTable">
+        <form action="">
+            {% csrf_token %}
+            <table border="1px" style="padding: 10px; margin: 1px; border-color: black;">
+                <tr>
+                    <th>SRN</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Institution Code</th>
+                    <th>Verify</th>
+                </tr>
+                <span></span>{% for request in requestToValidate %}
+                <tr>
+                    <td>{{request.SRN}}</td>
+                    <td>{{request.first_name}}&nbsp;{{request.last_name}}</td>
+                    <td>{{request.email}}</td>
+                    <td>{{request.Role}}</td>
+                    <td>{{request.Institution_code}}</td>
+                    <td><input type="checkbox" name="verifyUser" id="verifyUser" value={{request.SRN}}></td>
+                </tr>
+                <span></span>{% endfor %}
+            </table>
+            <button type="submit">Verify</button>
+            <button type="reset">Clear</button>
+        </form>
+    </div>
+
+    <br>
+    <br>
     <button type="submit" value=""><a href="/signout">Signout</a></button> {% else %}
     <button type="submit" value=""><a href="/signup">Signup</a></button>
     <button type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}

@@ -5,18 +5,28 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
+#import custom user model
+from .models import AppUserModel
+
 # Testing url 
 def test(request):
 	return HttpResponse('<h1>Testing, AquaPhish</h1>')
 
 
-# Main home Page : index.html
+# Main home Page for all users: index.html
 def home(request):
 	return render(request, "Web/index.html") #correction required
 
 
-# Webapp user funtions
+# Dashboard page for logged in users
+def dashboard(request):
+	if request.method == "POST":
+		vicitm_id = request.POST["victim"]
+		print(vicitm_id)
+		
+	return render(request, "Web/dashboard.html")
 
+# Webapp user funtions
 
 def signup(request):
 
@@ -30,15 +40,15 @@ def signup(request):
 		pass1 = request.POST['password']
 		pass2 = request.POST['confirmpassword']
 
-	# Input Validations
+		# Input Validations for all users
 		if User.objects.filter(username=SRN):
 			messages.error(request, "SRN already exists!")
 			return redirect("/home")
 		if User.objects.filter(email=email):
 			messages.error(request, "Email already registered!")
 			return redirect("/home")
-		if len(SRN) > 12:
-			messages.error(request, "Username must be under 12 characters")
+		if len(SRN) > 15:
+			messages.error(request, "Username must be under 15 characters")
 			return redirect("/home")
 		if pass1 != pass2:
 			messages.error(request, "Passwords didn't match")
@@ -47,13 +57,25 @@ def signup(request):
 			messages.error(request, "SRN must be Alpha-Numeric!")
 			return redirect("/home")
 
-		
 
-		# Create a user
+	### Create a custom user
+		CustomAppUser = AppUserModel(SRN=SRN, email=email)
+		CustomAppUser.first_name = fname
+		CustomAppUser.last_name = lname
+		CustomAppUser.Role = role
+		CustomAppUser.Institution_code = institution
+
+		CustomAppUser.save()
+
+
+	### Custom user creation ends here
+
+	
+
+		# Create a user auth system
 		AppUser = User.objects.create_user(SRN, email, pass1)
 		AppUser.first_name = fname
 		AppUser.last_name = lname
-
 		# AppUser.SRN = SRN
 		# AppUser.role = role
 		# AppUser.institution = institution
@@ -73,12 +95,23 @@ def signin(request):
 	if request.method == "POST":
 		SRN = request.POST['SRN'] # === Username
 		pass1 = request.POST['password']
+		Role = request.POST['role'] #TODO: not necessary to be taken as input
 		
 		AppUser = authenticate(username=SRN, password=pass1 )
+
 		if AppUser is not None:
 			login(request=request, user=AppUser)
-			fname = AppUser.first_name
-			return render(request, "Web/index.html", {"fname": fname})
+			CustomUser = AppUserModel.objects.get(SRN=AppUser.username)
+
+			fname = AppUser.first_name + " " + AppUser.last_name
+			Institution_code = CustomUser.Institution_code
+			userRole = CustomUser.Role
+			
+			requestToValidate = None
+			if(userRole == "Admin"):
+				requestToValidate = AppUserModel.objects.filter(Institution_code=Institution_code, isActive = False, Role="Student").values()
+				
+			return render(request, "Web/index.html", {"fname": fname, "institution_code": Institution_code, "requestToValidate": requestToValidate})
 
 		else:
 			messages.error(request, "Invalid Credentials!")
