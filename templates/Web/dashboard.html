@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../static/dashboardStyle.css">
+</head>
+
+<body>
+
+    <div class="box">
+        <h1>Search</h1>
+        <form action="/dashboard" method="post">
+            {% csrf_token %}
+            <input type="text" name="victim" placeholder="Enter the Victim's social ID">
+            <input type="submit" name="" value="Go">
+
+        </form>
+
+</body>
+
+</html>
