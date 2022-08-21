@@ -55,3 +55,39 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background: #ff5722;
 }
+
+.authBtn {
+    position: relative;
+    /* Left: -5px; */
+    border-radius: 25px 0;
+    width: 150px;
+    height: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #ffc107;
+    color: #fff;
+    text-decoration: none;
+    font-size: medium;
+    margin: 8px;
+}
+
+.positionContainer {
+    position: relative;
+    height: 200px;
+    margin-top: auto;
+    /*Higly coupled*/
+}
+
+.center {
+    margin: 0px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.signInFormContainer {
+    height: 500px !important;
+}

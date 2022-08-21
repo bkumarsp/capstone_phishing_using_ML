@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url(../static/images/bg.jpg);
+    background-size: cover;
+    font-family: sans-serif;
+    color: #fff;
+}
+
+.project_name {
+    text-align: center;
+    position: relative;
+    left: auto;
+    top: 160px;
+    font-size: 55px;
+}
+
+.title {
+    color: #ffc107;
+}
+
+h1 {
+    color: rgb(255, 255, 255)
+}
+
+h2,
+h3 {
+    padding: 3px;
+    color: #ffffff;
+}
+
+label {
+    font-size: large;
+    margin-right: 0;
+    color: #fff;
+}
+
+input {
+    width: 35%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input:focus {
+    background-color: rgb(255, 227, 228);
+    border: 3px solid rgb(46, 255, 220);
+}
+
+select {
+    width: 35%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+    position: relative;
+    /* Left: -5px; */
+    border-radius: 25px 0;
+    width: 150px;
+    height: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #ffc107;
+    color: #fff;
+    text-decoration: none;
+    font-size: medium;
+    margin: 8px;
+}
+
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=reset]:hover {
+    background: #ff5722;
+}
+
+.positionContainer {
+    position: relative;
+    height: 480px;
+    margin-top: 12%;
+    /*Higly coupled*/
+}
+
+.center {
+    margin: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.signInFormContainer {
+    height: 500px !important;
+}
+
+a {
+    text-emphasis: none;
+    text-decoration: none;
+}
+
+
+/* Form elements styling */
+
+label {
+    font-size: larger;
+    font-weight: 400;
+    color: #ff5722;
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: #fbd4d4;
+    border-radius: 25px;
+}
+
+input:focus,
+select:focus {
+    background-color: rgb(255, 227, 228);
+    border-radius: 25px;
+    border: 3px solid rgb(46, 255, 220);
+}
+
+select {
+    width: 50%;
+    text-align: center;
+    border: none;
+    border-radius: 25px;
+    background-color: #fbd4d4;
+    margin-left: 5px;
+}
