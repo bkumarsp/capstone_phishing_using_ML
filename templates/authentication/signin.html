@@ -6,43 +6,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In Page</title>
-    <link rel="stylesheet" href="../../static/forms.css">
+
+
+    <link rel="stylesheet" type="text/css" href="../../static/formStyles.css" />
 
 </head>
 
 <body>
-    <h1>Sign In Form</h1>
 
-    <form action="/signin" method="post">
-        {% csrf_token %}
+    <div class="positionContainer signInFormContainer">
+        <div class="center">
+            <h1 class="title">Sign In to AquaPhish</h1>
+            <form action="/signin" method="post">
+                {% csrf_token %}
 
-        <!-- SRN is Username-->
-        <label for="SRN">SRN<span style="padding-right: 100px;"></span></label>
-        <input type="text" name="SRN" placeholder="Enter your ID number" required>
-        <br>
+                <!-- SRN is Username-->
+                <label for="SRN">SRN<span style="padding-right: 100px;"></span></label>
+                <input type="text" name="SRN" placeholder="Enter your ID number" required>
+                <br>
 
-        <!-- Role -->
-        <label for="role">Role<span style="padding-right: 100px;"></span></label>
-        <select name="role" id="role">
-            <option value="Student">Student</option>
-            <option value="Admin">Admin</option>
-        </select>
-        <br>
+                <!-- Role -->
+                <label for="role">Role<span style="padding-right: 115px;"></span></label>
+                <select name="role" id="role">
+                    <option value="Student">Student</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <br>
 
-        <!-- password -->
-        <label for="password">Password<span style="padding-right: 67px;"></span></label>
-        <input type="password" name="password" placeholder="Enter the password" required>
-        <br>
+                <!-- password -->
+                <label for="password">Password<span style="padding-right: 67px;"></span></label>
+                <input type="password" name="password" placeholder="Enter the password" required>
+                <br>
 
-        <span style="padding-right: 65px;"></span>
+                <span style="padding-right: 65px;"></span>
+                <div class="btnContainer">
+                    <button type="submit">Submit</button>
+                    <button type="reset">Clear</button>
+                </div>
 
-        <button type="submit">Submit</button>
-        <button type="reset">Clear</button>
+                <span style="padding-right: 75px;"></span>
+                <button type="submit" value=""><a href="/signup">Sign Up</a></button>
+            </form>
+        </div>
+    </div>
 
-        <br>
-        <span style="padding-right: 130px;"></span>
-        <button type="submit" value=""><a href="/signup">Sign Up</a></button>
-    </form>
 </body>
 
 </html>

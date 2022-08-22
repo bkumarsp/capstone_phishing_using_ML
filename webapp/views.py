@@ -23,8 +23,22 @@ def dashboard(request):
 	if request.method == "POST":
 		vicitm_id = request.POST["victim"]
 		print(vicitm_id)
-		
-	return render(request, "Web/dashboard.html")
+	if request.user.is_authenticated: #illegal access
+		return render(request, "Web/dashboard.html")
+	else:
+		return redirect("/home")
+	
+
+def adminDashboard(request):
+	if request.method == "POST":
+		# TODO: Verify student credentials
+		print("Student verification approval granted.")
+
+	if request.user.is_authenticated: #illegal access
+		return render(request, "Web/adminDashboard.html")
+	else:
+		return redirect("/home")
+	
 
 # Webapp user funtions
 
@@ -67,12 +81,10 @@ def signup(request):
 
 		CustomAppUser.save()
 
-
 	### Custom user creation ends here
 
-	
 
-		# Create a user auth system
+	#### Create a user auth system
 		AppUser = User.objects.create_user(SRN, email, pass1)
 		AppUser.first_name = fname
 		AppUser.last_name = lname
@@ -100,18 +112,31 @@ def signin(request):
 		AppUser = authenticate(username=SRN, password=pass1 )
 
 		if AppUser is not None:
-			login(request=request, user=AppUser)
 			CustomUser = AppUserModel.objects.get(SRN=AppUser.username)
+			if CustomUser.Role != Role: #user validation
+				messages.error(request, "User not registered for "+Role+" role!")
+				return redirect("/home")
 
-			fname = AppUser.first_name + " " + AppUser.last_name
+			#Validated user, ready to login
+			login(request=request, user=AppUser)
+			
+
+			fullName = AppUser.first_name + " " + AppUser.last_name
 			Institution_code = CustomUser.Institution_code
 			userRole = CustomUser.Role
 			
 			requestToValidate = None
-			if(userRole == "Admin"):
+			
+			if(userRole == "Admin"): #redirect to adminDashboard
 				requestToValidate = AppUserModel.objects.filter(Institution_code=Institution_code, isActive = False, Role="Student").values()
+				return render(request, "Web/adminDashboard.html", {"fullname": fullName, "institution_code": Institution_code, "requestToValidate": requestToValidate, "role": Role})
+
+			elif(userRole == "Student"): #redirect to dashboard
+				return render(request, "Web/dashboard.html", {"fullname": fullName, "institution_code": Institution_code, "role": userRole})
+
 				
-			return render(request, "Web/index.html", {"fname": fname, "institution_code": Institution_code, "requestToValidate": requestToValidate})
+			# TODO: fix index.html page, Add some valid features
+			return render(request, "Web/index.html", {"fname": fullName, "institution_code": Institution_code, "requestToValidate": requestToValidate})
 
 		else:
 			messages.error(request, "Invalid Credentials!")

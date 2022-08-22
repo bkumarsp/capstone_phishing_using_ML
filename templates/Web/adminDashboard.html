@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aqua Phish: Homepage</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../../static/formStyles.css">
-
 </head>
 
 <body>
@@ -22,17 +21,17 @@
 
 
 
-    <h1 class="project_name">Aqua Phishing</h1>
+    <h1>Aqua Phishing: Admin's Dashboard</h1>
 
     {% if user.is_authenticated %}
-    <h2>Hello {{fname}}</h2>
+    <h2>Hello {{fullname}}</h2>
     <h3>You're successfully logged in.</h3>
     <br>
     <h1>Your pending requests for approval are:</h1>
     <hr>
 
     <div class="requestsTable">
-        <form action="">
+        <form action="/adminDashboard" method="post">
             {% csrf_token %}
             <table border="1px" style="padding: 10px; margin: 1px; border-color: black;">
                 <tr>
@@ -62,16 +61,11 @@
     <br>
     <br>
     <button type="submit" value=""><a href="/signout">Signout</a></button> {% else %}
-    <div class="positionContainer">
-        <div class="center">
-            <button class="authBtn" type="submit" value=""><a href="/signup">Signup</a></button>
-            <button class="authBtn" type=" submit " value=" "><a href="/signin ">Signin</a></button>
-        </div>
-    </div>
-    {% endif %}
+    <button type="submit" value=""><a href="/signup">Signup</a></button>
+    <button type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
 
 
-    <script src=" " async defer></script>
+    <script src="" async defer></script>
 </body>
 
 </html>
