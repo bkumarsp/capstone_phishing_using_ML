@@ -7,6 +7,13 @@ body {
     color: #fff;
 }
 
+.close {
+    height: fit-content !important;
+    background-color: greenyellow !important;
+    width: fit-content !important;
+    color: black !important;
+}
+
 .project_name {
     text-align: center;
     position: relative;
@@ -99,11 +106,19 @@ input[type=reset]:hover {
 
 .signInFormContainer {
     height: 500px !important;
+    margin-top: 130px;
+    ;
 }
 
-a {
+a,
+a:hover,
+a:visited,
+a:focus,
+a:active,
+a:link {
     text-emphasis: none;
     text-decoration: none;
+    color: white;
 }
 
 

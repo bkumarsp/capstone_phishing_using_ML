@@ -1,0 +1,70 @@
+body {
+    color: #ff5722 !important;
+}
+
+h1,
+h2 {
+    color: red !important;
+    text-align: center;
+    font-size: xx-large;
+    margin-bottom: 75px;
+    background-color: rgb(164, 249, 221);
+    width: fit-content;
+    padding: 3px;
+    border-radius: 4px;
+    margin-left: 40px;
+}
+
+h3,
+h4 {
+    color: gold !important;
+    background-color: rgb(68, 68, 68);
+    width: fit-content;
+    padding: 3px;
+    border-radius: 4px;
+}
+
+h5 {
+    color: greenyellow;
+    font-size: medium;
+}
+
+.adminDashboardClass {
+    margin-top: 200px;
+    margin-left: 50px;
+}
+
+.requestsTable {
+    background-color: rgb(222, 255, 222);
+    border-radius: 25px;
+    height: fit-content !important;
+    width: fit-content !important;
+    padding: 0 15px;
+    padding-top: 15px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px 4px;
+}
+
+th {
+    color: rgb(107, 0, 0);
+}
+
+td {
+    color: rgb(215, 0, 215);
+}
+
+.formBtn {
+    margin-left: 125px;
+}
+
+.btn {
+    width: 125px;
+    height: 45px;
+    color: #000;
+}

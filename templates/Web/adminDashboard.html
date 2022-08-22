@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../../static/formStyles.css">
+    <link rel="stylesheet" href="../../static/dashboardStyle.css">
+    <link rel="stylesheet" href="../../static/adminDashboardStyles.css">
 </head>
 
 <body>
@@ -19,50 +21,55 @@
     </div>
     {% endfor %}
 
-
-
-    <h1>Aqua Phishing: Admin's Dashboard</h1>
-
-    {% if user.is_authenticated %}
-    <h2>Hello {{fullname}}</h2>
-    <h3>You're successfully logged in.</h3>
+    <h5>Hello {{fullname}}, You're successfully logged in.</h5>
     <br>
-    <h1>Your pending requests for approval are:</h1>
-    <hr>
 
-    <div class="requestsTable">
-        <form action="/adminDashboard" method="post">
-            {% csrf_token %}
-            <table border="1px" style="padding: 10px; margin: 1px; border-color: black;">
-                <tr>
-                    <th>SRN</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Institution Code</th>
-                    <th>Verify</th>
-                </tr>
-                <span></span>{% for request in requestToValidate %}
-                <tr>
-                    <td>{{request.SRN}}</td>
-                    <td>{{request.first_name}}&nbsp;{{request.last_name}}</td>
-                    <td>{{request.email}}</td>
-                    <td>{{request.Role}}</td>
-                    <td>{{request.Institution_code}}</td>
-                    <td><input type="checkbox" name="verifyUser" id="verifyUser" value={{request.SRN}}></td>
-                </tr>
-                <span></span>{% endfor %}
-            </table>
-            <button type="submit">Verify</button>
-            <button type="reset">Clear</button>
-        </form>
+    <div class="positionContainer adminDashboardClass">
+        <div class="center">
+            <h1>Aqua Phishing: Admin's Dashboard</h1>
+
+            {% if user.is_authenticated %}
+
+            <h3>Your pending requests for approval are:</h3>
+
+            <div class="requestsTable">
+                <form action="/adminDashboard" method="post">
+                    {% csrf_token %}
+                    <table style="padding: 10px; margin: 1px; border-color: black;">
+                        <tr>
+                            <th>SRN</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Institution Code</th>
+                            <th>Verify</th>
+                        </tr>
+                        <span></span>{% for request in requestToValidate %}
+                        <tr>
+                            <td>{{request.SRN}}</td>
+                            <td>{{request.first_name}}&nbsp;{{request.last_name}}</td>
+                            <td>{{request.email}}</td>
+                            <td>{{request.Role}}</td>
+                            <td>{{request.Institution_code}}</td>
+                            <td><input type="checkbox" name="verifyUser[]" id="verifyUser" value={{request.SRN}}></td>
+                        </tr>
+                        <span></span>{% endfor %}
+                    </table>
+                    <div class="formBtn">
+                        <button class="btn" type="submit">Verify</button>
+                        <button class="btn" type="reset">Clear</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <br>
+            <button type="submit" value=""><a href="/signout">Signout</a></button> {% else %}
+            <button type="submit" value=""><a href="/signup">Signup</a></button>
+            <button type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
+        </div>
     </div>
 
-    <br>
-    <br>
-    <button type="submit" value=""><a href="/signout">Signout</a></button> {% else %}
-    <button type="submit" value=""><a href="/signup">Signup</a></button>
-    <button type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
 
 
     <script src="" async defer></script>
