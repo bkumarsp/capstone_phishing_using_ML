@@ -9,8 +9,15 @@ body {
 h1 {
     margin: 0 0 10px;
     padding: 0;
-    color: #fff;
+    color: #ff5722;
     font-size: 24px;
+}
+
+.project_name {
+    text-align: center;
+    margin-top: 15% !important;
+    font-size: xx-large !important;
+    color: gold;
 }
 
 .box {
@@ -89,5 +96,16 @@ input[type="submit"]:hover {
 }
 
 .signInFormContainer {
-    height: 500px !important;
+    height: 600px !important;
+}
+
+a,
+a:hover,
+a:visited,
+a:focus,
+a:active,
+a:link {
+    text-emphasis: none;
+    text-decoration: none;
+    color: #fff;
 }

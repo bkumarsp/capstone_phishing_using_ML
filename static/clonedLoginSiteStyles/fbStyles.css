@@ -1,0 +1,271 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 
+
+================
+    Header Area
+================ 
+*/
+
+.header_area {
+    background: #3A5795;
+    padding: 10px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.header_area .logo_area {
+    float: left;
+    width: 30%;
+    padding-top: 5px;
+}
+
+.header_area .login_area {
+    width: 70%;
+    overflow: hidden;
+}
+
+.header_area .login_area label,
+.login_area input {
+    display: block;
+}
+
+.header_area .login_area input[type="checkbox"] {
+    float: left;
+}
+
+.login_area .username_area {
+    float: left;
+}
+
+.login_area .password_area {
+    overflow: hidden;
+    float: left;
+}
+
+.login_area .submit_area {
+    overflow: hidden;
+    float: left;
+}
+
+.username_area,
+.password_area {
+    margin-right: 15px;
+}
+
+.login_area label {
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.login_area label,
+a {
+    font-size: 12px;
+}
+
+.login_area input {
+    margin: 5px 0 3px 0;
+    border: 1px solid #1D2A5B;
+    padding: 2px;
+}
+
+.login_area a {
+    color: #8CACC3;
+    text-decoration: none;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.login_area a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.username_area label:last-child {
+    margin-top: 3px;
+    display: inline-block;
+    overflow: hidden;
+    color: #8CACC3;
+}
+
+.login_area .submit_area input {
+    background: #5A74A8;
+    color: #ffffff;
+    margin-top: 22px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+form {
+    float: right;
+}
+
+@media all and (max-width: 668px) {
+    .header_area .logo_area {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .login_area form {
+        width: 100%;
+        float: none;
+    }
+    .login_area .username_area,
+    .password_area {
+        float: none;
+    }
+    .login_area input[type="text"],
+    [type="password"] {
+        width: 100%;
+    }
+    .header_area .login_area {
+        width: 100%;
+    }
+    .login_area .password_area {
+        float: none;
+    }
+    .login_area .submit_area input {
+        margin-top: 15px;
+    }
+}
+
+@media all and (max-width: 1070) {
+    .img_area {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+    }
+    .form_area {
+        width: 100%;
+        float: none;
+    }
+}
+
+
+/* 
+================
+    Main Area
+================ 
+*/
+
+.main_area {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(#fff, #d3d8e8);
+}
+
+.img_area {
+    width: 50%;
+    float: left;
+    margin-right: 10%;
+}
+
+.img_area h2 {
+    margin-top: 40px;
+}
+
+.form_area {
+    width: 40%;
+    overflow: hidden;
+    padding-top: 35px;
+}
+
+.form_area h1 {
+    margin-bottom: 10px;
+}
+
+.form_area form {
+    margin-top: 20px;
+}
+
+.form_area input[type="text"],
+.form_area input[type="password"] {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #C1CADA;
+    box-sizing: border-box;
+    font-size: 18px;
+    padding: 10px 0 10px 10px;
+    border-radius: 5px;
+}
+
+.form_area input[type="text"]:first-child {
+    width: 47%;
+    margin-right: 6%;
+    float: left;
+}
+
+.form_area input[type="text"]:nth-child(2) {
+    width: 47%;
+    overflow: hidden;
+}
+
+.form_area select {
+    padding: 8px 5px;
+    border: 1px solid #C1CADA;
+    border-radius: 4px;
+}
+
+.form_area .birthday {
+    color: #90949c;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.gender_area .gender {
+    color: #90949c;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.gender_area label {
+    font-size: 18px;
+    color: #1d2129;
+    line-height: 18px;
+    padding: 0 10px 0 3px;
+}
+
+
+}
+.form_area label {
+    cursor: pointer;
+}
+.form_area input[type="submit"] {
+    background: linear-gradient( #77be5b, #578943);
+    border: 1px solid #50813a;
+    border-radius: 5px;
+    padding: 6px 60px;
+    color: #ffffeb;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+.form_area input[type="submit"]:hover {
+    background: linear-gradient(#578943, #77be5b);
+}
+.page_area p {
+    color: #666;
+    font-size: 13px;
+    font-weight: bold;
+}
+.page_area a {
+    color: #385898;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+}
+.page_area a:hover {
+    text-decoration: underline;
+}
+.page_area {
+    margin-bottom: 25px;
+}
