@@ -9,6 +9,8 @@
 
 
     <link rel="stylesheet" type="text/css" href="../../static/formStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/hoverEffect.css" />
+
 
 </head>
 
@@ -17,7 +19,7 @@
     <div class="positionContainer signInFormContainer">
         <div class="center">
             <h1 class="title">Sign In to AquaPhish</h1>
-            <form action="/signin" method="post">
+            <form class="formData" action="/signin" method="post">
                 {% csrf_token %}
 
                 <!-- SRN is Username-->

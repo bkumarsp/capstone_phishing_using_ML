@@ -5,16 +5,14 @@
     <meta charset="utf-8">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../../static/dashboardStyle.css">
+    <link rel="stylesheet" href="../../static/hoverEffect.css">
 </head>
 
 <body>
     <!-- display messages -->
     {% for message in messages %}
-    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <div style="color: yellow; font-size: large; padding: auto; margin: 10px;" class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
         <strong>Message:</strong>{{message}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
     {% endfor %}
 
@@ -27,8 +25,14 @@
 
     {% if user.is_authenticated %}
 
-    <!-- Main module function:  Search feature -->
     <div class="box">
+        <button class="authBtn" style="color: black !important;"><a style="color: black !important;" href="/automaticMode">Automatic</a></button>
+        <button class="authBtn" style="color: black !important;"><a style="color: black !important;" href="/manualMode">Manual</a></button>
+
+    </div>
+
+    <!-- Main module function:  Search feature -->
+    <!-- <div class="box">
         <h1 style="margin-left: 2%;">Search</h1>
         <form action="/dashboard" method="post">
             {% csrf_token %}
@@ -36,10 +40,10 @@
             <input type="submit" name="" value="Go">
 
         </form>
-    </div>
+    </div> -->
 
     <br>
-    <div class="clonedSites" style="margin-left: 8px;">
+    <!-- <div class="clonedSites" style="margin-left: 8px;">
         <h2 style="color: gold;">Cloned url for phishing:</h2>
         <ul>
             <li>
@@ -52,15 +56,18 @@
                 <a href="/cloned/twitter">Twitter</a>
             </li>
         </ul>
-    </div>
+    </div> -->
     <button class="authBtn" style="margin-left: 12px;" type="submit" value=""><a href="/signout">Signout</a></button>
 
 
     <!-- Below code is not reachable -->
 
     <span></span> {% else %}
-    <button class="authBtn" type="submit" value=""><a href="/signup">Signup</a></button>
-    <button class="authBtn" type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
+    <div class="box">
+        <button class="authBtn" type="submit" value=""><a href="/signup">Signup</a></button>
+        <button class="authBtn" type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
+
+    </div>
 
 
 

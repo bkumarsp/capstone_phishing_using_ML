@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../static/dashboardStyle.css">
+    <link rel="stylesheet" href="../../static/hoverEffect.css">
+
+
+    <style>
+        .backBtn {
+            border-radius: 25px;
+            margin: 5px 15px;
+            width: 60px;
+            padding: 5px;
+            height: fit-content;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background: #ffc107 !important;
+        }
+    </style>
+</head>
+<!-- former dashboard.html -->
+
+<body>
+    <!-- display messages -->
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong>{{message}}
+    </div>
+    {% endfor %}
+
+
+    <div class="positionContainer">
+        <button class="backBtn"><a href="/automaticMode">Back</a></button>
+
+        <div class="center">
+            <h1 class="project_name">Aqua Phishing</h1>
+            <h3 class="mode_name" style="color: rgb(0, 255, 217);  text-align: center;  font-size: large; font-style: italic;">Automatic Mode</h3>
+
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+
+
+    <!-- Main module function:  Search feature -->
+    <div class="box dataContainer">
+        <br> {% if ResultData != "" or ResultData is not None %}
+        <div class="Result_data">
+            <p>Attack Domain : <span>{{ResultData.domain}}</span> </p>
+            <p>ML model score: <span>{{ResultData.score}}%</span> </p>
+            <p>Email Class : <span>{{ResultData.emailClass}}</span> </p>
+        </div>
+
+        <br>
+        <hr>
+        <h1 style="margin-left: 2%;">Provide Victims data to launch attack:</h1>
+        <form class="phishingForm" action="/automaticAttackLaunch" method="post">
+            {% csrf_token %}
+            <input type="email" name="victim_email" placeholder="Enter the Victim's Email" required>
+            <input type="text" name="victim_number" placeholder="Enter victim's phone number">
+            <textarea name="emailBody" id="emailBody" cols="70" rows="6">{{EmailBody}}</textarea>
+            <!-- <input type="text" name="emailBody" value={{EmailBody}} required> -->
+            <input type="submit" name="" value="Launch">
+        </form>
+        {% endif %}
+
+    </div>
+
+
+
+
+    <button class="authBtn " style="margin-left: 12px; " type="submit " value=" "><a href="/signout ">Signout</a></button>
+
+
+    <!-- Below code is not reachable -->
+
+    <span></span> {% else %}
+    <button class="authBtn " type="submit " value=" "><a href="/signup ">Signup</a></button>
+    <button class="authBtn " type="submit " value=" "><a href="/signin ">Signin</a></button>{% endif %}
+
+
+
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 ## Backend process for data collection
 
 #import section
+from webbrowser import Chrome
 from selenium import webdriver as wd
 import selenium
 from time import sleep
@@ -21,17 +22,15 @@ def test(param="Test"):
 # Common attributes
 url_whatsmyname = "https://whatsmyname.app/"
 
-# browser = wd.Chrome(executable_path="D:\\Python_projects_2022\\SeleniumDrivers\\chrome104\\chromedriver.exe")
-
-
 #wait for some time for page to load
-timeoutPeriod = 15
-sleepDuration = 25
+timeoutPeriod = 10
+sleepDuration = 8
 
 def scrapeWebpage(victimId="@ElonMusk", urls=url_whatsmyname, timeout=timeoutPeriod, sleepTime=sleepDuration):
     
     options = wd.ChromeOptions()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
+    options.add_argument("--window-size=1440, 900")
     options.add_argument("incognito")
     options.add_argument("--disable-logging")
     options.add_argument("--log-level=3")
@@ -70,7 +69,6 @@ def scrapeWebpage(victimId="@ElonMusk", urls=url_whatsmyname, timeout=timeoutPer
     row_size = min(row_size, 10) #only for testing purpose
 
     for row in range(2, row_size+1):
-
         try:
         #site, category, link
             site = browser.find_element(By.XPATH, "/html/body/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(row)+"]/td[1]").text
@@ -87,17 +85,16 @@ def scrapeWebpage(victimId="@ElonMusk", urls=url_whatsmyname, timeout=timeoutPer
         except selenium.common.exceptions.NoSuchElementException:
             print("Missing data for row: ", row)
 		    
+    
     print(userData)
     			
 			
     #Download data as a csv file
     downloadCSVBtn = browser.find_element(By.XPATH, '//*[@id="collectiontable_wrapper"]/div[1]/button[3]')
-    downloadCSVBtn.click()
-    print(str(downloadCSVBtn.tag_name))
-
-    sleep(sleepTime*10)
+    sleep(sleepTime)
 
 
     # browser.close()
     # browser.quit()
-    return "success"
+    
+    return userData

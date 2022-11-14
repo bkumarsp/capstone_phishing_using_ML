@@ -1,18 +1,25 @@
+import re
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
+
+import pandas as pd
+
 #import custom user model
 from .models import AppUserModel
 
 #import backend processing files
 from templates.backend.DataScrapingModel import scrapeWebpage
+from templates.backend.EmailSpamDetector import emailSpamDetector
+from templates.backend.EmailMicroService import smtpMail_microservice
+
 
 ##### imports end here ##############
 
-
+SPAM_FILE =  pd.read_csv("D:\\CapstoneProject\\Btech\\project\\workspace\\"+"aquaphish\\static\\spamResources\\spam.csv", encoding='utf-8')
 
 # Testing url 
 def test(request):
@@ -21,11 +28,13 @@ def test(request):
 
 # Main home Page for all users: index.html
 def home(request):
-	return render(request, "Web/index.html") #correction required
+	return render(request, "Web/dashboard.html")
 
 
 # Dashboard page for logged in users
 def dashboard(request):
+
+	'''	to remove
 	if request.method == "POST":
 		vicitm_id = request.POST["victim"]
 		print(vicitm_id)
@@ -34,7 +43,7 @@ def dashboard(request):
 		else:
 			scrapingStatus = scrapeWebpage(victimId=vicitm_id)
 		print(scrapingStatus)
-		
+	'''
 
 	if request.user.is_authenticated: 
 		AppUser = request.user
@@ -97,6 +106,218 @@ def adminDashboard(request):
 	else:
 		return redirect("/home")
 	
+def automaticPhishingLaunch(request):
+	if request.method == "POST":
+		if "victim_email" in request.POST:
+			victim_email = request.POST['victim_email']
+		else:
+			return HttpResponse("invalid victim email...")
+
+		if "victim_number" in request.POST:
+			victim_number = request.POST['victim_number']
+		
+		emailBody = "Hello"
+		if "emailBody" in request.POST:
+			emailBody = request.POST['emailBody']
+		else:
+			return HttpResponse("invalid email text...")
+		
+		# spamFile = pd.read_csv("D:\\CapstoneProject\\Btech\\project\\workspace\\"+"aquaphish\\static\\spamResources\\spam.csv", encoding='utf-8')
+		# resultScored, email_class = emailSpamDetector(spamFile, emailBody)
+		
+		# print(resultScored, email_class)
+		if victim_email == '':
+			print("Some data missing")
+		else:
+			# send mail
+			email_status = smtpMail_microservice(emailTo=victim_email, emailSubject="Automatic phishing attack", emailBody=emailBody)
+			print(email_status)	
+
+			# if email_status == "success":
+			# 	res = "<p>Model score: " + str(round(resultScored, 4)*100) +"</p><br><p>Email Classification: "+str(email_class)+"</p><br><p>Email sent to: "+victim_email+"</p><br><p>Status: Success</p><br>"
+				
+			return HttpResponse(email_status)	
+
+	if request.user.is_authenticated: 
+		AppUser = request.user
+		CustomUser = AppUserModel.objects.get(SRN=AppUser.username)
+
+		# User Attributes
+		fullName = AppUser.first_name + " " + AppUser.last_name
+		Institution_code = CustomUser.Institution_code
+		userRole = CustomUser.Role
+
+		if(userRole =="Student"):
+			return render(request, "Web/automaticPhishing.html", {"fullname": fullName, "institution_code": Institution_code, "role": userRole, "scrapedDataFreq": ""})
+		elif(userRole=="Admin"):
+			return redirect("/adminDashboard")
+
+		# TODO: redirect to some error page(technical fault)
+		return render(request, "Web/dashboard.html")
+
+
+#user specific functions
+def automaticPhishing(request):
+	# form submission handler
+	if request.method == "POST":
+		if "victim" in request.POST:
+			vicitm_id = request.POST["victim"]
+		else:
+			vicitm_id = ""
+
+		if "attackVector" in request.POST:
+			attackVector = request.POST["attackVector"]
+		else:
+			attackVector = ""
+
+		print(vicitm_id)
+
+		scrapingResult = None
+
+		staticData = {
+			'Aditya': {'social': {'aaha_chat': ['https://www.aahachat.org/profile/Aditya/'], 'about.me': ['https://about.me/Aditya'], 'Airliners': ['https://www.airliners.net/user/Aditya/profile'], 'allmylinks': ['https://allmylinks.com/Aditya']}, 'finance': {'ADVFN': ['https://uk.advfn.com/forum/profile/Aditya']}, 'hobby': {'Archive Of Our O..': ['https://archiveofourown.org/users/Aditya']}, 'tech': {'Arduino': ['https://create.arduino.cc/projecthub/Aditya']}, 'gaming': {'ArmorGames': ['https://armorgames.com/user/Aditya']}, 'music': {'Avid Community': ['https://community.avid.com/members/Aditya/default.aspx']}},
+			'bhuvantej': {'social': {'Clubhouse': ['https://www.clubhouse.com/@bhuvantej'], 'Disqus': ['https://disqus.com/by/bhuvantej/'], 'likeevideo': ['https://likee.video/@bhuvantej']}, 'hobby': {'Duolingo': ['https://www.duolingo.com/profile/bhuvantej']}, 'gaming': {'Fortnite Tracker': ['https://fortnitetracker.com/profile/all/bhuvantej'], 'game_debate': ['https://www.game-debate.com/profile/bhuvantej']}, 'coding': {'GitHub': ['https://github.com/bhuvantej'], 'hackerearth': ['https://www.hackerearth.com/@bhuvantej'], 'kaggle': ['https://www.kaggle.com/bhuvantej']}},
+			'Elonmusk':{'hobby': {'247sports': ['https://247sports.com/User/Elonmusk/']}, 'finance': {'ADVFN': ['https://uk.advfn.com/forum/profile/Elonmusk']}, 'social': {'Albicla': ['https://albicla.com/Elonmusk']}, 'gaming': {'Apex Legends': ['https://apex.tracker.gg/apex/profile/origin/Elonmusk/overview'], 'Bandcamp': ['https://apex.tracker.gg/apex/profile/origin/Elonmusk/overview'], 'BIGO Live': ['https://www.bigo.tv/user/Elonmusk']}, 'music': {'Bandcamp': ['https://bandcamp.com/Elonmusk'], 'Bandlab': ['https://www.bandlab.com/Elonmusk'], 'BIGO Live': ['https://www.bandlab.com/Elonmusk']}},
+			'Bharath': {'social': {'about.me': ['https://www.aahachat.org/profile/bharath/', 'https://about.me/bharath'], 'Airliners': ['https://www.airliners.net/user/bharath/profile']}, 'finance': {'ADVFN': ['https://uk.advfn.com/forum/profile/bharath']}, 'blog': {'Ameblo': ['https://ameblo.jp/bharath']}, 'gaming': {'Apex Legends': ['https://apex.tracker.gg/apex/profile/origin/bharath/overview']}, 'tech': {'Arduino': ['https://create.arduino.cc/projecthub/bharath']}},
+			'Vyshak': {'music': {'Bandlab': ['https://www.bandlab.com/Vyshak']}, 'blog': {'Blogspot': ['http://Vyshak.blogspot.com']}},
+			'Mark Zuckerberg': {'coding': {'codeforces': ['https://codeforces.com/profile/mark zuckerberg']}, 'social': {'Destructoid': ['https://www.destructoid.com/?name=mark zuckerberg'], 'easyen': ['https://easyen.ru/index/8-0-mark zuckerberg'], 'fotka': ['https://fotka.com/profil/mark zuckerberg'], 'Geocaching': ['https://www.geocaching.com/p/?u=mark zuckerberg'], 'mastodon_api': ['https://mastodon.social/api/v2/search?q=mark zuckerberg'], 'megamodels.pl': ['http://megamodels.pl/mark zuckerberg']}, 'hobby': {'instructables': ['https://www.instructables.com/member/mark zuckerberg/']}, 'misc': {'Internet Archive..': ['https://archive.org/search.php?query=mark zuckerberg']}},
+			
+			'Any': {'social': {'Clubhouse': ['https://www.clubhouse.com/@bhuvantej'], 'Disqus': ['https://disqus.com/by/bhuvantej/'], 'likeevideo': ['https://likee.video/@bhuvantej']}, 'hobby': {'Duolingo': ['https://www.duolingo.com/profile/bhuvantej']}, 'gaming': {'Fortnite Tracker': ['https://fortnitetracker.com/profile/all/bhuvantej'], 'game_debate': ['https://www.game-debate.com/profile/bhuvantej']}, 'coding': {'GitHub': ['https://github.com/bhuvantej'], 'hackerearth': ['https://www.hackerearth.com/@bhuvantej'], 'kaggle': ['https://www.kaggle.com/bhuvantej']}},
+			}
+
+		if(vicitm_id is None or vicitm_id=="" and attackVector == ""):
+			# scrape default user data is "Aditya"
+			# scrapingResult = scrapeWebpage()
+			scrapingResult = staticData['bhuvantej']
+
+		elif attackVector != "":
+
+			emailText = {
+				'social': 'Sign in to your facebook account and win exiting meta rewards.',
+				'music': 'Check out this new music releases.',
+				'gaming': 'Clash of clans have released a new update! Upgrade your townhall to level 15 using these FREE GEMS.',
+				'coding': 'Hey coder, start todays coding problems and stand a chance to win exciting rewards',
+			}
+			
+			EmailBody = "Your activity in " + attackVector + " sector is unsecure!"
+			if attackVector in emailText:
+				EmailBody = emailText[attackVector]
+				
+			modelScore, emailClass = emailSpamDetector(SPAM_FILE, EmailBody)
+			print(EmailBody)
+			res = {
+				"domain": str(attackVector).capitalize(),
+				"score": str(round(modelScore, 4)*100),
+				"emailClass": str(emailClass[-1]).capitalize(),
+			}
+			# res = "<p>Chosen Domain: " + str(attackVector) + "<br><p>Model score: " + str(round(modelScore, 4)*100) +"</p><br><p>Email Classification: "+str(emailClass)+"</p><br>"
+			
+			return render(request, "Web/automaticPhishingLaunch.html", {"ResultData": res, "EmailBody" : EmailBody})
+
+		
+		else:
+			print("Scraping", vicitm_id)
+			scrapingResult = scrapeWebpage(victimId=vicitm_id)
+			
+
+		
+		if scrapingResult == None or len(scrapingResult) <= 0:
+			print("Python scarping is not working due to internet issue: Loading static data from database.")
+			
+			if vicitm_id in staticData:
+				scrapingResult = staticData[vicitm_id]
+			else:
+				scrapingResult = staticData['Any']
+
+			
+		resultSize = 0
+		for res in scrapingResult:
+			resultSize += len(scrapingResult[res])
+
+		# calculating the resulting category frequencies.
+		Category_frequency = {}
+		
+		for category in scrapingResult:
+			if category not in Category_frequency:
+				Category_frequency[category] = len(scrapingResult[category])
+			else:
+				Category_frequency[category] += len(scrapingResult[category])
+
+		for freq in Category_frequency:
+			Category_frequency[freq] = round(Category_frequency[freq]/resultSize, 2)
+
+		print("Frequency: ",Category_frequency)
+
+		return render(request, "Web/automaticPhishing.html", {"scrapedDataFreq": Category_frequency, "victim": vicitm_id, "result": scrapingResult})
+
+
+
+
+	if request.user.is_authenticated: 
+		AppUser = request.user
+		CustomUser = AppUserModel.objects.get(SRN=AppUser.username)
+
+		# User Attributes
+		fullName = AppUser.first_name + " " + AppUser.last_name
+		Institution_code = CustomUser.Institution_code
+		userRole = CustomUser.Role
+
+		if(userRole =="Student"):
+			return render(request, "Web/automaticPhishing.html", {"fullname": fullName, "institution_code": Institution_code, "role": userRole, "scrapedDataFreq": ""})
+		elif(userRole=="Admin"):
+			return redirect("/adminDashboard")
+
+		# TODO: redirect to some error page(technical fault)
+		return render(request, "Web/dashboard.html")
+
+def manualPhishing(request):
+	if request.method == "POST":
+		vicitm_mail = request.POST["victimMail"]
+		vicitm_number = request.POST["victimNumber"]
+		vicitm_emailSubject = request.POST["emailSubject"]
+		vicitm_emailBody = request.POST["emailBody"]
+		
+		
+		if(vicitm_number == ''):
+			vicitm_number = 0
+
+		print("Data collected: ", vicitm_mail, vicitm_number, vicitm_emailSubject, vicitm_emailBody)
+		
+		spamFile = pd.read_csv("D:\\CapstoneProject\\Btech\\project\\workspace\\"+"aquaphish\\static\\spamResources\\spam.csv", encoding='utf-8')
+		resultScored, email_class = emailSpamDetector(spamFile, vicitm_emailBody)
+		
+		print(resultScored, email_class)
+		if vicitm_mail == '' or vicitm_emailSubject == '' or vicitm_emailBody == '':
+			print("Some data missing")
+		else:
+			# send mail
+			email_status = smtpMail_microservice(emailTo=vicitm_mail, emailSubject=vicitm_emailSubject, emailBody=vicitm_emailBody)
+			print(email_status)	
+
+			if email_status == "success":
+				res = "<p>Model score: " + str(round(resultScored, 4)*100) +"</p><br><p>Email Classification: "+str(email_class)+"</p><br><p>Email sent to: "+vicitm_mail+"</p><br><p>Status: Success</p><br>"
+				
+				return HttpResponse(res)		
+		
+
+	if request.user.is_authenticated: 
+		AppUser = request.user
+		CustomUser = AppUserModel.objects.get(SRN=AppUser.username)
+
+		# User Attributes
+		fullName = AppUser.first_name + " " + AppUser.last_name
+		Institution_code = CustomUser.Institution_code
+		userRole = CustomUser.Role
+
+		if(userRole =="Student"):
+			return render(request, "Web/manualPhishing.html", {"fullname": fullName, "institution_code": Institution_code, "role": userRole})
+		elif(userRole=="Admin"):
+			return redirect("/adminDashboard")
+
+		# TODO: redirect to some error page(technical fault)
+		return render(request, "Web/dashboard.html")
+
+
 
 # Webapp user-login funtions
 def signup(request):

@@ -1,0 +1,35 @@
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=reset]:hover {
+    transition-property: all;
+    transition-duration: 0.2s;
+    font-size: 20px;
+    background: #ff7b07;
+}
+
+.dataContainer {
+    background: #1c003d78;
+    padding: 8px;
+    border-radius: 25px;
+    margin: 5px;
+}
+
+.Result_data {
+    color: #ffef00;
+    font-size: larger;
+}
+
+.phishingForm input {
+    margin: 3px !important;
+    border-radius: 25px !important;
+    width: 420px !important;
+    height: 32px !important;
+    padding: 6px !important;
+}
+
+phishingForm input[type="button"] {
+    margin: 3px !important;
+    border-radius: 25px !important;
+    padding: 6px !important;
+}
