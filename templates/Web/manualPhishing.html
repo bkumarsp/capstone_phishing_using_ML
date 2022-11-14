@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../static/manualPhishingStyle.css">
+</head>
+<!-- former dashboard.html -->
+
+<body>
+    <!-- display messages -->
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong>{{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+
+
+    <div class="positionContainer">
+        <button class="backBtn"><a href="/dashboard">Back</a></button>
+
+        <div class="center">
+
+            <h1 class="project_name">Aqua Phishing</h1>
+            <h3 class="mode_name" style="color: rgb(0, 255, 217);  text-align: center;  font-size: large; font-style: italic;">Manual Mode</h3>
+
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+
+    <!-- Main module function:  Search feature -->
+    <div class="box">
+        <h1 style="margin-left: 80px; color: rgb(231, 0, 0); width: fit-content; background-color: beige;">Enter email details...</h1>
+        <form action="/manualMode" method="post">
+            {% csrf_token %}
+
+            <input class="formInput" type="email" name="victimMail" id="victimMail" placeholder="Enter victim's email ID" required> <br>
+            <input class="formInput" type="text" name="victimNumber" id="victimNumber" placeholder="Enter victim's phone number"> <br>
+            <input class="formInput" type="text" name="emailSubject" placeholder="Enter the mail subject" required> <br>
+            <input class="formInput" type="text" name="emailBody" placeholder="Enter the email body" required> <br>
+
+            <!-- <textarea name="emailBodyArea" id="emailBodyArea" cols="50" rows="10" required></textarea> -->
+
+            <!-- <input type="submit" name="Go" value="Go"> -->
+            <button class="formButton" type="submit">Attack</button>
+            <button class="formButton" style="margin-left: 30px;" type="reset">Clear</button>
+            <!-- TODO: Edit here -->
+
+        </form>
+    </div>
+
+    <br>
+    <div class="clonedSites" style="margin-left: 8px;">
+        <h2 style="color: gold;">Cloned url for phishing:</h2>
+        <ul>
+            <li>
+                <a href="/cloned/instagram">Instagram</a>
+            </li>
+            <li>
+                <a href="/cloned/facebook">Facebook</a>
+            </li>
+            <li>
+                <a href="/cloned/twitter">Twitter</a>
+            </li>
+        </ul>
+    </div>
+    <button class="authBtn" style="margin-left: 12px;" type="submit" value=""><a href="/signout">Signout</a></button>
+
+
+    <!-- Below code is not reachable -->
+
+    <span></span> {% else %}
+    <button class="authBtn" type="submit" value=""><a href="/signup">Signup</a></button>
+    <button class="authBtn" type="submit" value=""><a href="/signin">Signin</a></button>{% endif %}
+
+
+
+
+</body>
+
+</html>

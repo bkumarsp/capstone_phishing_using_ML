@@ -24,6 +24,10 @@ body {
 
 .title {
     color: #ffc107;
+    background-color: #1171c691;
+    padding: 5px;
+    border-radius: 10px;
+    width: fit-content;
 }
 
 h1 {
@@ -107,7 +111,12 @@ input[type=reset]:hover {
 .signInFormContainer {
     height: 500px !important;
     margin-top: 130px;
-    ;
+}
+
+.formData {
+    background: #1c003d78;
+    padding: 8px;
+    border-radius: 25px;
 }
 
 a,

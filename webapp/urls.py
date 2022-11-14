@@ -7,10 +7,17 @@ urlpatterns = [
 	path('', views.home, name="home"),
 	path('test/', views.test, name="test"),
 
+	# basic app urls
 	path('home', views.home, name="home"),
 	path('dashboard', views.dashboard, name="dashboard"),
 	path('adminDashboard', views.adminDashboard, name="adminDashboard"),
-	
+
+	# user specific urls
+	path('automaticMode', views.automaticPhishing, name='automaticPhishing'),
+	path('automaticAttackLaunch', views.automaticPhishingLaunch, name='automaticPhishingLaunch'),
+	path('manualMode', views.manualPhishing, name='manualPhishing'),
+
+	# login system
 	path('signup', views.signup, name="signup"),
 	path('signin', views.signin, name="signin"),
 	path('signout', views.signout, name="signout"),
