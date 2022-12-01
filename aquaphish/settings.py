@@ -82,6 +82,7 @@ WSGI_APPLICATION = 'aquaphish.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+#ADMIN-SITE: 1.	 Bharath (usrname) : super123Admin (passwd)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

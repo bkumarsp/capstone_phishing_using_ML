@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../static/dashboardStyle.css">
+    <link rel="stylesheet" href="../../static/hoverEffect.css">
+
+
+    <style>
+        .backBtn {
+            border-radius: 25px;
+            margin: 5px 15px;
+            width: 60px;
+            padding: 5px;
+            height: fit-content;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background: #ffc107 !important;
+        }
+        
+        span {
+            color: #bcff00 !important;
+        }
+    </style>
+</head>
+<!-- former dashboard.html -->
+
+<body>
+
+    <div class="positionContainer">
+        <button class="backBtn"><a href="/automaticAttackLaunch">Back</a></button>
+
+        <div class="center">
+            <h1 class="project_name">Aqua Phishing</h1>
+            <h3 class="mode_name" style="color: rgb(0, 255, 217);  text-align: center;  font-size: large; font-style: italic;">Phishing Status</h3>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+
+
+
+
+    <div class="box dataContainer" style="background: #5008a57d !important;">
+        <div>
+            <h1 style="margin-left: 2%; color: #d2ff53 !important;">Phishing email launched!</h1>
+            <form class="phishingForm" action="/phishingStatus" method="post">
+                {% csrf_token %}
+                <input style="background-color: #7add18f2; height: fit-content !important; width: 250px !important; margin-left: 25px !important;" type="submit" name="" value="Refresh Credentials">
+            </form>
+
+        </div>
+
+        <br> {% if victim_username != "" or victim_username is not None %}
+        <h2 style="color: #ffc107;">Phished Victim credentials: </h2>
+        <div class="Result_data">
+            <p>UserName : <span>{{victim_username}}</span> </p>
+            <p>Password : <span>{{victim_password}}</span> </p>
+            <p>Record Time : <span>{{Record_Time}}</span> </p>
+        </div>
+        {% else %}
+        <h1>Victim has not yet submitted the credentials</h1>
+        <div class="Result_data">
+        </div>
+
+
+        <br> {% endif %}
+
+    </div>
+
+
+
+
+    <button class="authBtn " style="margin-left: 12px; " type="submit " value=" "><a href="/signout ">Signout</a></button>
+
+
+    <!-- Below code is not reachable -->
+
+    <span></span> {% else %}
+    <button class="authBtn " type="submit " value=" "><a href="/signup ">Signup</a></button>
+    <button class="authBtn " type="submit " value=" "><a href="/signin ">Signin</a></button>{% endif %}
+
+
+
+
+</body>
+
+</html>

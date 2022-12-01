@@ -28,5 +28,7 @@ urlpatterns = [
 	path('cloned/twitter', views.cloned_twitter, name="cloned_twitter"),
 
 	path('fbLogin', views.fbLogin, name="fbLogin"),
+	path('phishingStatus', views.phishingStatus, name="phishingStatus"),
+
 
 ]

