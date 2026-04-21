@@ -1,1 +1,48 @@
+🔐 Spear Phishing Simulation using Machine Learning
+📌 Overview
 
+This project simulates real-world spear phishing attacks using machine learning to improve cybersecurity awareness and detection. It generates targeted phishing scenarios by analyzing user data and mimicking attacker behavior.
+
+🚀 Features
+Automated data collection using Python + Selenium
+Machine learning-based classification of phishing patterns
+Generation of realistic spear-phishing templates
+Supports awareness training and attack simulation
+Research-backed approach (published work)
+
+🛠️ Tech Stack
+Python
+Selenium (Web scraping & automation)
+Scikit-learn / ML models
+Pandas, NumPy
+Jupyter Notebook
+
+⚙️ How It Works
+Collects publicly available user data using Selenium
+Cleans and preprocesses the dataset
+Applies ML algorithms to classify behavior patterns
+Generates targeted phishing templates based on insights
+
+📊 Use Cases
+Cybersecurity awareness training
+Phishing simulation exercises
+Research in social engineering attacks
+Defensive security testing
+
+🔐 Security & Ethics
+This project is built strictly for educational and defensive purposes.
+No real attacks are conducted. Data usage follows ethical guidelines.
+
+📚 Research
+Findings presented at an international conference
+Published in Springer to support cybersecurity awareness
+
+📌 Future Improvements
+Improve ML model accuracy with larger datasets
+Integrate real-time detection capabilities
+Add phishing detection dashboard
+
+🤝 Contributions
+Contributions are welcome! Feel free to fork, improve, and submit a PR.
+
+⭐ If you find this useful, consider giving it a star!
